@@ -45,9 +45,9 @@ import calculations
 with open('vertices_19.json') as file:
   data = json.load(file)
 
-print(data["topView"])
+#print(data["topView"])
 topviewpoints = data["topView"]
-print(topviewpoints[3][1]) 
+#print(topviewpoints[3][1]) 
 
 ## coordinates for a horizontal line (top of square)
 #x1 = topviewpoints[0][0]
@@ -68,14 +68,35 @@ y1 = 50
 y2 = 150
 
 
+## to create a closed shape, must "connect" first item 
+##  of array to last item of array
+topviewpoints.append(topviewpoints[0])
 
-print(calculations.lenCalc(x1, y1, x2, y2))
-# print(round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1))
 
+
+def riserun(x1, y1, x2, y2):
+  if (x2 == x1): 
+    return math.degrees(90)
+  else:
+    return (y2 - y1)/(x2 - x1)
+
+def degCalc(x1, y1, x2, y2):
+  return round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1)
+
+def lenCalc(x1, y1, x2, y2):
+  return 1
+  #return round(math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 ), 1)
 
 ## creates 2d array of lengths and angles
 lenAngleData = []
 
-#for i in topviewpoints:
-#  append
+for i in range(1, len(topviewpoints)):
+  x1 = topviewpoints[i-1][0]
+  x2 = topviewpoints[i][0]
+  y1 = topviewpoints[i-1][1]
+  y2 = topviewpoints[i][1]
 
+  lenAngleData.append( [lenCalc(x1, y1, x2, y2), 
+                        degCalc(x1, y1, x2, y2)] )
+
+print(lenAngleData)
