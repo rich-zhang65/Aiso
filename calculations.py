@@ -1,6 +1,20 @@
 # a library with all of our calculations to be imported into create3d.py
 import math
 
+def lenAngleArrayMaker(pointsArray):
+  dataArray = []
+
+  for i in range(1, len(pointsArray)):
+    x1 = pointsArray[i-1][0]
+    x2 = pointsArray[i][0]
+    y1 = pointsArray[i-1][1]
+    y2 = pointsArray[i][1]
+
+    dataArray.append( [lenCalc(x1, y1, x2, y2), 
+                       degCalc(x1, y1, x2, y2)] )
+
+  return dataArray
+
 def riserun(x1, y1, x2, y2):
   if (x2 == x1): 
     return math.degrees(90)
@@ -11,7 +25,7 @@ def degCalc(x1, y1, x2, y2):
   return round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1)
 
 def lenCalc(x1, y1, x2, y2):
-  return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
+  return math.sqrt( (x2 - x1)**2 + (y2 - y1)**2 )
 
 # give this function the top view points to get the overall length
 def overallLength(topViewPoints):
