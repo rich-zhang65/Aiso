@@ -72,4 +72,19 @@ def riserun(x1, y1, x2, y2):
   else:
     return (y2 - y1)/(x2 - x1)
 
-print(round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1))
+def degCalc(x1, y1, x2, y2):
+  return round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1)
+
+def lenCalc(x1, y1, x2, y2):
+  return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
+
+lenCalc(x1, y1, x2, y2)
+# print(round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1))
+
+
+## creates 2d array of lengths and angles
+lenAngleData = []
+
+#for i in topviewpoints:
+#  append
+
