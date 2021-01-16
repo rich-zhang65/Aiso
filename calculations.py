@@ -23,4 +23,4 @@ def overallHeight(sideViewPoints):
     return -1
 
 def getCuttingSurface(pointsArray):
-    return -1
+    return 0
