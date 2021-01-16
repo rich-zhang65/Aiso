@@ -55,10 +55,16 @@ print(topviewpoints[3][1])
 #y2 = topviewpoints[1][1]
 
 ## coordinates for a vertical line (right side of square)
-x1 = topviewpoints[1][0]
-x2 = topviewpoints[2][0]
-y1 = topviewpoints[1][1]
-y2 = topviewpoints[2][1]
+#x1 = topviewpoints[1][0]
+#x2 = topviewpoints[2][0]
+#y1 = topviewpoints[1][1]
+#y2 = topviewpoints[2][1]
+
+## coordinates for slanted line
+x1 = 50
+x2 = 100
+y1 = 50
+y2 = 150
 
 def riserun(x1, y1, x2, y2):
   if (x2 == x1): 
