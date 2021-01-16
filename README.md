@@ -1,3 +1,3 @@
 # Aiso
 
-Upload your 2D engineering drawings and see your 3D part come to life!
+Sketch your 2D engineering drawings and watch as your 3D part comes to life!
