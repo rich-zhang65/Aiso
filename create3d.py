@@ -100,3 +100,10 @@ for i in range(1, len(topviewpoints)):
                         degCalc(x1, y1, x2, y2)] )
 
 print(lenAngleData)
+
+print(calculations.overallLength(topviewpoints))
+
+topviewpoints.pop(len(topviewpoints)-1)
+print(topviewpoints)
+print(calculations.getFourCorners(topviewpoints))
+print(calculations.getCuttingShapes(topviewpoints))

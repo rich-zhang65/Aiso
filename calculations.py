@@ -11,7 +11,7 @@ def degCalc(x1, y1, x2, y2):
   return round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1)
 
 def lenCalc(x1, y1, x2, y2):
-  return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
+  return math.sqrt( (x2 - x1)**2 + (y2 - y1)**2 )
 
 # give this function the top view points to get the overall length
 def overallLength(topViewPoints):
@@ -72,6 +72,59 @@ def overallHeight(sideViewPoints):
   #use len calc to get the height and return
   return lenCalc(farUp[0], farUp[1], farDown[0], farDown[1])
 
+# returns the main four corners of a sketch (rectangular base)
+def getFourCorners(pointsArray):
 
-def getCuttingSurface(pointsArray):
-    return 0
+  topRight = pointsArray[0]
+  topLeft = pointsArray[0]
+  bottomRight = pointsArray[0]
+  bottomLeft = pointsArray[0]
+
+  for i in range(len(pointsArray)):
+
+    if pointsArray[i][0] < topLeft[0] or pointsArray[i][1] < topLeft[1]:
+      topLeft = pointsArray[i]
+    
+    if pointsArray[i][0] > topRight[0] or pointsArray[i][1] < topRight[1]:
+      topRight = pointsArray[i]
+
+    if pointsArray[i][0] > bottomRight[0] or pointsArray[i][1] > bottomRight[1]:
+      bottomRight = pointsArray[i]
+
+    if pointsArray[i][0] < bottomLeft[0] or pointsArray[i][1] > bottomLeft[1]:
+      bottomLeft = pointsArray[i]
+  
+  # sketchy fix (repeat for other cases once example 1 works)
+  #basically wanna make sure it makes a rectangle shape for now
+  if topLeft[1] != topRight[1]:
+    if topLeft[1] > topRight[1]:
+      topRight[1] = topLeft[1]
+
+  if topRight[0] != bottomRight[0]:
+    if topRight[0] < bottomRight[0]:
+      topRight[0] = bottomRight[0]
+
+  return [topLeft, topRight, bottomRight, bottomLeft]
+
+
+# given a surface sketch, it finds the coordinates of the shapes we need to cut out
+# only one cut for now
+# works with "chronological" drawing
+def getCuttingShapes(pointsArray):
+    
+  corners = getFourCorners(pointsArray)
+
+  cutPoints = []
+
+  for i in range(len(pointsArray)):
+
+      # find cuts that are not part of the corners
+    if pointsArray[i] not in corners:
+      cutPoints.append(pointsArray[i])    
+
+  for i in range(len(corners)):
+
+    if corners[i] not in pointsArray:
+      cutPoints.append(corners[i])
+
+  return cutPoints
