@@ -4,6 +4,7 @@ import mouse
 from time import sleep
 import json
 import math
+import calculations
 
 # https://www.thepythoncode.com/article/control-mouse-python
 
@@ -66,19 +67,9 @@ x2 = 100
 y1 = 50
 y2 = 150
 
-def riserun(x1, y1, x2, y2):
-  if (x2 == x1): 
-    return math.degrees(90)
-  else:
-    return (y2 - y1)/(x2 - x1)
 
-def degCalc(x1, y1, x2, y2):
-  return round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1)
 
-def lenCalc(x1, y1, x2, y2):
-  return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
-
-lenCalc(x1, y1, x2, y2)
+print(calculations.lenCalc(x1, y1, x2, y2))
 # print(round(math.degrees(math.atan( riserun(x1, y1, x2, y2))), 1))
 
 
