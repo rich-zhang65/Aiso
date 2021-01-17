@@ -67,10 +67,14 @@ keyboard.press('l')
 keyboard.wait('f')
 
 # sketch rectangle using lines
-drawRectangle(baseLength,baseWidth)
+#drawRectangle(baseLength,baseWidth)
 
 #extrude it so we now have our basic prism
 # we haven't scaled height and pixels yet
-extrude(baseHeight/4)
+#extrude(baseHeight/4)
 
+#keyboard.wait('f')
 
+drawRectangle(200,200)
+
+extrudeCut(100)
