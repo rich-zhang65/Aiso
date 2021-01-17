@@ -91,24 +91,24 @@ def getFourCorners(pointsArray):
 
   copyPointsArray = pointsArray[:]
 
-  topRight = copyPointsArray[0]
-  topLeft = copyPointsArray[0]
-  bottomRight = copyPointsArray[0]
-  bottomLeft = copyPointsArray[0]
+  topRight = list(copyPointsArray[0])
+  topLeft = list(copyPointsArray[0])
+  bottomRight = list(copyPointsArray[0])
+  bottomLeft = list(copyPointsArray[0])
 
   for i in range(len(copyPointsArray)):
 
     if copyPointsArray[i][0] < topLeft[0] or copyPointsArray[i][1] < topLeft[1]:
-      topLeft = copyPointsArray[i]
+      topLeft = list(copyPointsArray[i])
     
     if copyPointsArray[i][0] > topRight[0] or copyPointsArray[i][1] < topRight[1]:
-      topRight = copyPointsArray[i]
+      topRight = list(copyPointsArray[i])
 
     if copyPointsArray[i][0] > bottomRight[0] or copyPointsArray[i][1] > bottomRight[1]:
-      bottomRight = copyPointsArray[i]
+      bottomRight = list(copyPointsArray[i])
 
     if copyPointsArray[i][0] < bottomLeft[0] or copyPointsArray[i][1] > bottomLeft[1]:
-      bottomLeft = copyPointsArray[i]
+      bottomLeft = list(copyPointsArray[i])
   
   # sketchy fix (repeat for other cases once example 1 works)
   #basically wanna make sure it makes a rectangle shape for now
@@ -119,7 +119,7 @@ def getFourCorners(pointsArray):
   if topRight[0] != bottomRight[0]:
     if topRight[0] < bottomRight[0]:
       topRight[0] = bottomRight[0]
-
+  
   return [topLeft, topRight, bottomRight, bottomLeft]
 
 
@@ -133,8 +133,6 @@ def getCuttingShape(pointsArray):
   corners = getFourCorners(copyPointsArray)
   cutPoints = []
 
-  print(len(copyPointsArray))
-
   for i in range(len(copyPointsArray)):
 
     # find points that are not part of the corners
@@ -142,7 +140,6 @@ def getCuttingShape(pointsArray):
       cutPoints.append(copyPointsArray[i])    
 
   # find corners we need to include in cut
-  print(len(corners))
   for i in range(len(corners)):
 
     if corners[i] not in copyPointsArray:

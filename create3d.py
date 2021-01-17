@@ -63,15 +63,19 @@ for i in range(1, len(topviewpoints)):
 # print(lenAngleData)
 # print(calculations.overallLength(topviewpoints))
 
+#print(sideviewpoints)
 newpoints = calculations.prepArray(sideviewpoints)
 
+cargs = []
+#newpointscopy = newpoints[:]
+
+for i in range(len(newpoints)):
+
+  cargs.append(newpoints[i])
+
 print(newpoints)
 
-print(calculations.getFourCorners(newpoints))
-
-print(newpoints)
-
-print(calculations.getCuttingShape(newpoints))
+print(calculations.getCuttingShape(cargs))
 
 # lenAngleArrayMaker usage for top, front, and side
 #print(calculations.lenAngleArrayMaker(topviewpoints))
