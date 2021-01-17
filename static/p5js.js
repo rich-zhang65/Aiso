@@ -56,7 +56,15 @@ function mouseClicked(){
         else {
           if (!containsLine(a, b, x1, y1, lines)) { // make sure line doesn't already exist
             secondClick = false;
-            lines.push(new Edge(a, b, x1, y1)); // add line
+            if (snap(mouseX) >= 120 && snap(mouseX) <= 480) {
+              lines.push(new Edge(a, b, x1, y1, 1)); // add line
+            }
+            else if(snap(mouseX) >= 570 && snap(mouseX) <= 930) {
+              lines.push(new Edge(a, b, x1, y1, 2)); // add line
+            }
+            else if (snap(mouseX) >= 1020 && snap(mouseX) <= 1380) {
+              lines.push(new Edge(a, b, x1, y1, 3)); // add line
+            }
           }
         }
       }
@@ -82,11 +90,12 @@ function mouseClicked(){
 }
 
 class Edge { // Line class
-  constructor(coorx1, coory1, coorx2, coory2) {
+  constructor(coorx1, coory1, coorx2, coory2, grid) {
     this.coorx1 = coorx1;
     this.coory1 = coory1;
     this.coorx2 = coorx2;
     this.coory2 = coory2;
+    this.grid = grid;
   } 
 }
 
@@ -134,24 +143,7 @@ function drawLines(lines) {
   for (let i = 0; i < lines.length; i++) { // draw the lines
     line(lines[i].coorx1, lines[i].coory1, lines[i].coorx2, lines[i].coory2);
     // ------------------------------------------------------------------------------------
-    if(gridNum == 1) {
-       if(!arrayIncludes(jsonArraySide, [lines[i].coorx1,lines[i].coory1]) 
-          || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArraySide[0])) {
-           jsonArraySide.push([lines[i].coorx1,lines[i].coory1]);  
-       }
-    }
-    if(gridNum == 2) {
-       if(!arrayIncludes(jsonArrayTop, [lines[i].coorx1,lines[i].coory1]) 
-          || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArrayTop[0])) {
-           jsonArrayTop.push([lines[i].coorx1,lines[i].coory1]);
-       }
-    }
-    if(gridNum == 3) {
-       if(!arrayIncludes(jsonArrayFront, [lines[i].coorx1,lines[i].coory1]) 
-          || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArrayFront[0])) {
-           jsonArrayFront.push([lines[i].coorx1,lines[i].coory1]);
-       }
-    }
+    
   }
 }
 
@@ -174,18 +166,18 @@ function removeLine(x1, y1, x2, y2, lines) { // remove line from array lines
   for (let i = 0; i < lines.length; i++) {
     if (doLinesMatch(x1, y1, x2, y2, lines[i])) {
       lines.splice(i, 1);
-      if(gridNum == 1) {
-        removeFromArray(jsonArraySide, [x1,y1]);
-        removeFromArray(jsonArraySide, [x2,y2]);
-      }
-      if(gridNum == 2) {
-        removeFromArray(jsonArrayTop, [x1,y1]);
-        removeFromArray(jsonArrayTop, [x2,y2]);
-      }
-      if (gridNum == 3) {
-        removeFromArray(jsonArrayFront, [x1,y1]);
-        removeFromArray(jsonArrayFront, [x2,y2]);        
-      }
+      // if(gridNum == 1) {
+      //   removeFromArray(jsonArraySide, [x1,y1]);
+      //   removeFromArray(jsonArraySide, [x2,y2]);
+      // }
+      // if(gridNum == 2) {
+      //   removeFromArray(jsonArrayTop, [x1,y1]);
+      //   removeFromArray(jsonArrayTop, [x2,y2]);
+      // }
+      // if (gridNum == 3) {
+      //   removeFromArray(jsonArrayFront, [x1,y1]);
+      //   removeFromArray(jsonArrayFront, [x2,y2]);        
+      // }
     }
   }
 }
@@ -206,8 +198,43 @@ function containsLine(x1, y1, x2, y2, lines) { // checks if lines array contains
 
 // submit drawings to json file
 function submission() {
-  json.topView = jsonArrayTop;
+
+  for(let i = 0; i < lines.length; i++) {
+    
+    if(lines[i].grid == 1) {
+      if(!arrayIncludes(jsonArraySide, [lines[i].coorx1, lines[i].coory1]) 
+         || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArraySide[0])) {
+          jsonArraySide.push([lines[i].coorx1,lines[i].coory1]);  
+      }
+      if(!arrayIncludes(jsonArraySide, [lines[i].coorx2, lines[i].coory2]) 
+      || JSON.stringify([lines[i].coorx2,lines[i].coory2]) == JSON.stringify(jsonArraySide[0])) {
+       jsonArraySide.push([lines[i].coorx2,lines[i].coory2]);  
+       }
+   }
+   else if(lines[i].grid == 2) {
+      if(!arrayIncludes(jsonArrayTop, [lines[i].coorx1, lines[i].coory1]) 
+         || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArrayTop[0])) {
+          jsonArrayTop.push([lines[i].coorx1,lines[i].coory1]);
+      }
+      if(!arrayIncludes(jsonArrayTop, [lines[i].coorx2, lines[i].coory2]) 
+      || JSON.stringify([lines[i].coorx2,lines[i].coory2]) == JSON.stringify(jsonArrayTop[0])) {
+       jsonArrayTop.push([lines[i].coorx2,lines[i].coory2]);  
+       }
+   }
+   else if(lines[i].grid == 3) {
+      if(!arrayIncludes(jsonArrayFront, [lines[i].coorx1, lines[i].coory1]) 
+         || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArrayFront[0])) {
+          jsonArrayFront.push([lines[i].coorx1,lines[i].coory1]);
+      }
+      if(!arrayIncludes(jsonArrayFront, [lines[i].coorx2, lines[i].coory2]) 
+      || JSON.stringify([lines[i].coorx2,lines[i].coory2]) == JSON.stringify(jsonArrayFront[0])) {
+       jsonArrayFront.push([lines[i].coorx2,lines[i].coory2]);  
+       }
+   }
+  }
+
   json.sideView = jsonArraySide;
+  json.topView = jsonArrayTop;
   json.frontView = jsonArrayFront;
   // REMEMBER TO WRITE TO EXISTING JSON HERE ?? -----------------------------------------------------------
   saveJSON(json, 'pointdata.json');
@@ -224,8 +251,8 @@ function arrayIncludes(array, element) {
     
     stringArrayElement = JSON.stringify(array[i]);
     
-    print(stringElement);
-    print(stringArrayElement);
+    //print(stringElement);
+    //print(stringArrayElement);
     
     if(stringElement == stringArrayElement) {
       return true;

@@ -21,7 +21,7 @@ import flask
 
 
 # Load in JSON data
-# with open('static/pointdata.json') as file:
+# with open('pointdata.json') as file:
 #   data = json.load(file)
 
 # Store top, front, and side view coordinates as 2D arrays
