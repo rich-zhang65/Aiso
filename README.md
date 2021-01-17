@@ -1,6 +1,6 @@
 # Aiso
 
-Convert your flat and boring orthographic drawings into a beautiful 3D object using SolidWorks.
+Convert your boring orthographic drawings into a 3D object using SolidWorks.
 
 Instructions:
 1. Clone repository.
@@ -10,6 +10,6 @@ Instructions:
 5. Watch as your object comes to life!
 
 
-Patch Notes:
-v1.01:
-- Software and SolidWorks must be downloaded.
+The original idea of rendering the object on the web did not seem possible, so SolidWorks must be downloaded.
+Current version does not support full conversion of drawing -> model.
+This is currently a proof-of-concept project.
