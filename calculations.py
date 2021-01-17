@@ -45,7 +45,7 @@ def overallLength(topViewPoints):
         farRight = topViewPoints[i]
 
     #use len calc to get the length and return
-    return lenCalc(farLeft[0], farLeft[1], farRight[0], farRight[1])
+    return farRight[0] - farLeft[0]
 
 
 # give this function the top view points to get the overall width
@@ -65,7 +65,7 @@ def overallWidth(topViewPoints):
         farDown = topViewPoints[i]
 
     #use len calc to get the width and return
-    return lenCalc(farUp[0], farUp[1], farDown[0], farDown[1])
+    return farUp[1] - farDown[1]
 
 
 # give this function the front or side view points to get the overall height
@@ -85,31 +85,16 @@ def overallHeight(sideViewPoints):
       farDown = sideViewPoints[i]
 
   #use len calc to get the height and return
-  return lenCalc(farUp[0], farUp[1], farDown[0], farDown[1])
+  return farUp[1] - farDown[1]
 
 # returns the main four corners of a sketch (rectangular base)
 def getFourCorners(pointsArray):
 
   copyPointsArray = pointsArray[:]
 
-  topRight = list(copyPointsArray[0])
-  topLeft = list(copyPointsArray[0])
-  bottomRight = list(copyPointsArray[0])
-  bottomLeft = list(copyPointsArray[0])
-
-  for i in range(len(copyPointsArray)):
-
-    if copyPointsArray[i][0] < topLeft[0] or copyPointsArray[i][1] < topLeft[1]:
-      topLeft = list(copyPointsArray[i])
-    
-    if copyPointsArray[i][0] > topRight[0] or copyPointsArray[i][1] < topRight[1]:
-      topRight = list(copyPointsArray[i])
-
-    if copyPointsArray[i][0] > bottomRight[0] or copyPointsArray[i][1] > bottomRight[1]:
-      bottomRight = list(copyPointsArray[i])
-
-    if copyPointsArray[i][0] < bottomLeft[0] or copyPointsArray[i][1] > bottomLeft[1]:
-      bottomLeft = list(copyPointsArray[i])
+  maxes = findMaxes(copyPointsArray)
+  mins = findMins(copyPointsArray)
+  print(maxes, mins)
   
   # sketchy fix (repeat for other cases once example 1 works)
   #basically wanna make sure it makes a rectangle shape for now
@@ -117,11 +102,10 @@ def getFourCorners(pointsArray):
   #   if topLeft[1] > topRight[1]:
   #     topRight[1] = topLeft[1]
 
-  if topRight[0] != bottomRight[0]:
-    if topRight[0] < bottomRight[0]:
-      topRight[0] = bottomRight[0]
-  
-  return [topLeft, topRight, bottomRight, bottomLeft]
+  #if topRight[0] != bottomRight[0]:
+  #  if topRight[0] < bottomRight[0]:
+  #    topRight[0] = bottomRight[0]
+  return [[mins[0], mins[1]], [maxes[0], mins[1]], [mins[0], maxes[1]], [maxes[0], maxes[1]]]
 
 
 # given a surface sketch, it finds the coordinates of the shapes we need to cut out
@@ -165,3 +149,34 @@ def prepArray(pointsArray):
       return newArray
   
   return copyPointsArray
+
+def findMaxes(pointsArray):
+
+  maxX = pointsArray[0][0]
+  maxY = pointsArray[0][1]
+
+  for i in range(len(pointsArray)):
+      
+    if(pointsArray[i][0] > maxX):
+      maxX = pointsArray[i][0]
+
+    if(pointsArray[i][1] > maxY):
+      maxY = pointsArray[i][1]
+
+  return [maxX, maxY]
+
+def findMins(pointsArray):
+
+  minX = pointsArray[0][0]
+  minY = pointsArray[0][1]
+
+  for i in range(len(pointsArray)):
+      
+    if(pointsArray[i][0] < minX):
+      minX = pointsArray[i][0]
+
+    if(pointsArray[i][1] < minY):
+      minY = pointsArray[i][1]
+
+  return [minX, minY]
+
