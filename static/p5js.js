@@ -5,7 +5,8 @@ let lines = []; // array of lines
 let button1, button2;
 
 // storing json values ------------------------------------------------------------------
-let json = loadJSON('pointdata.json'); // load  JSON Object
+//let json = loadJSON('pointdata.json'); // load  JSON Object
+let json = {};
 var jsonArraySide = [];
 var jsonArrayTop = [];
 var jsonArrayFront = [];
@@ -14,16 +15,16 @@ var jsonArrayFront = [];
 var gridNum = 0;
 
 function setup() {
-  let cnv = createCanvas(1500, 400);
+  let cnv = createCanvas(1500, 500);
 //  cnv.center('horizontal');
 //  cnv.center('vertical');
   createGrid(); // forms grid
   //creating button
   button1 = createButton('Reset Canvases');
-  button1.position(570, 430);
+  button1.position(570, 650);
   button1.mousePressed(resetDraw);
   button2 = createButton('Submit');
-  button2.position(873, 430);
+  button2.position(873, 650);
   button2.mousePressed(submission);
 }
 
@@ -91,7 +92,7 @@ class Edge { // Line class
 
 function createGrid() {
   clear(); // wipes screen
-  background(255); // white background
+  //background(255); // white background
   // Draw grid
   var l = 0;
   var count = 0;
@@ -209,6 +210,7 @@ function submission() {
   json.sideView = jsonArraySide;
   json.frontView = jsonArrayFront;
   // REMEMBER TO WRITE TO EXISTING JSON HERE ?? -----------------------------------------------------------
+  saveJSON(json, 'pointdata.json');
   resetDraw();
 }
 

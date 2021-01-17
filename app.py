@@ -20,7 +20,7 @@ if __name__ == "__main__":
   app.run()
 
 # Load in JSON data
-# with open('pointdata.json') as file:
+# with open('static/pointdata.json') as file:
 #   data = json.load(file)
 
 # # Store top, front, and side view coordinates as 2D arrays
