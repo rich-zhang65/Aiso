@@ -1,0 +1,132 @@
+var grid = 30; // # of tiles
+var secondClick = false; // detect second click (might want to show indicator or smth)
+var a, b; // previous/saved position
+let lines = []; // array of lines
+
+function setup() {
+  let cnv = createCanvas(1500, 400); 
+  cnv.center('horizontal'); 
+  cnv.center('vertical');
+  createGrid(); // forms grid
+}
+
+
+function draw() { // update
+  createGrid(); // clears grid
+  drawLines(lines); // draw existing lines
+}
+
+
+function mouseClicked(){
+  if (secondClick) { // if second click
+    var x1 = snap(mouseX); // click position x
+    var y1 = snap(mouseY); // click position y
+    if (x1 != a || y1 != b) { // make sure not a point
+        
+      if (keyIsPressed == true && keyCode == CONTROL){ // delete func
+        secondClick = false;
+          
+        removeLine(a, b, x1, y1, lines);
+      }
+      
+      else {
+        if (!containsLine(a, b, x1, y1, lines)) { // make sure line doesn't already exist
+          secondClick = false;
+          lines.push(new Edge(a, b, x1, y1)); // add line
+        }
+      }
+    }
+  }
+  
+  else {
+    secondClick = true; // clicked first, prep second click
+    a = snap(mouseX); // saves position x
+    b = snap(mouseY); // saves position y
+  }
+}
+
+class Edge { // Line class
+  constructor(coorx1, coory1, coorx2, coory2) {
+    this.coorx1 = coorx1;
+    this.coory1 = coory1;
+    this.coorx2 = coorx2;
+    this.coory2 = coory2;
+  } 
+}
+
+function createGrid() {
+  clear(); // wipes screen
+  //background(255); // white background
+  // Draw grid
+  var l = 0;
+  var count = 0;
+  var border = 3;
+  var bordera = 0;
+  var sizeOfBox = 12;
+  var desiredSpace=2;
+  var mod = (sizeOfBox+desiredSpace);
+  strokeWeight(1);
+  stroke(50);
+  while (l < width || l < height) {
+    if (count>border){
+      if (count<((width-(border*grid))/grid)) {   
+        if (count <border+sizeOfBox+1 || (count!=17 && count!=18 && count!=32 && count!=33)){
+            line(l, (bordera+1)*grid, l, ((bordera+1+sizeOfBox)*grid)); //vertical;
+          }
+      }
+    }
+    if (count!=0)
+      if (count< (bordera+2+sizeOfBox)){ 
+        for (let i=0; i<3; i++){
+          line(((sizeOfBox*i)+(i+1)*border+1)*grid, l, ((sizeOfBox*(i+1)+border*(i+1)+1)*grid), l); //horizontal
+        }
+      }
+    l += grid;
+    count = count+1;
+  }
+}
+
+function drawLines(lines) {
+  stroke(0, 0, 255); // blue
+  strokeWeight(1);
+  for (let i = 0; i < lines.length; i++) { // draw the lines
+    line(lines[i].coorx1, lines[i].coory1, lines[i].coorx2, lines[i].coory2);
+  }
+}
+
+function snap(op) {
+  // subtract offset (to center lines)
+  // divide by grid to get row/column
+  // round to snap to the closest one
+  //var cell = Math.round((op - gridOffset) / grid);
+  
+  var cell = Math.round((op) / grid);
+  
+  // multiply back to grid scale
+  // add offset to center
+  //return cell * grid + gridOffset;
+  
+  return cell * grid ;
+}
+
+function removeLine(x1, y1, x2, y2, lines) { // remove line from array lines
+  for (let i = 0; i < lines.length; i++) {
+    if (doLinesMatch(x1, y1, x2, y2, lines[i])) {
+      lines.splice(i, 1);
+    }
+  }
+}
+
+function doLinesMatch(x1, y1, x2, y2, edge) { // checks if a line matches in lines array
+  return (x1 == edge.coorx1 && y1 == edge.coory1 && x2 == edge.coorx2 && y2 == edge.coory2) ||
+    (x1 == edge.coorx2 && y1 == edge.coory2 && x2 == edge.coorx1 && y2 == edge.coory1)
+}
+
+function containsLine(x1, y1, x2, y2, lines) { // checks if lines array contains line
+  for (let i = 0; i < lines.length; i++) {
+    if (doLinesMatch(x1, y1, x2, y2, lines)) {
+      return true;
+    }
+  }
+  return false;
+}
