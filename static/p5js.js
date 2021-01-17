@@ -4,17 +4,26 @@ var a, b; // previous/saved position
 let lines = []; // array of lines
 let button1, button2;
 
+// storing json values ------------------------------------------------------------------
+let json = loadJSON('pointdata.json'); // load  JSON Object
+var jsonArraySide = [];
+var jsonArrayTop = [];
+var jsonArrayFront = [];
+
+// which grid we're in
+var gridNum = 0;
+
 function setup() {
-  let cnv = createCanvas(1500, 500);
+  let cnv = createCanvas(1500, 400);
 //  cnv.center('horizontal');
 //  cnv.center('vertical');
   createGrid(); // forms grid
   //creating button
   button1 = createButton('Reset Canvases');
-  button1.position(570, 650);
+  button1.position(570, 430);
   button1.mousePressed(resetDraw);
   button2 = createButton('Submit');
-  button2.position(873, 650);
+  button2.position(873, 430);
   button2.mousePressed(submission);
 }
 
@@ -26,8 +35,7 @@ function draw() { // update
 
 
 function mouseClicked(){
-  //print(snap(mouseX), snap(mouseY));
-  print("hi")
+    
   if (snap(mouseY) >= 30 && snap(mouseY) <= 390 && 
       ((snap(mouseX) >= 120 && snap(mouseX) <= 480) ||
        (snap(mouseX) >= 570 && snap(mouseX) <= 930) ||
@@ -57,6 +65,17 @@ function mouseClicked(){
       secondClick = true; // clicked first, prep second click
       a = snap(mouseX); // saves position x
       b = snap(mouseY); // saves position y
+      //----------------------------------------------------------------------------------------------------------------
+      if(a >= 120 && a <= 480) {
+        gridNum = 1;
+      }
+      else if(a >= 570 && a <= 930) {
+        gridNum = 2;
+      }
+      else {
+        gridNum = 3;
+      }
+      
     }
   }
 }
@@ -72,7 +91,7 @@ class Edge { // Line class
 
 function createGrid() {
   clear(); // wipes screen
-  //background(255); // white background
+  background(255); // white background
   // Draw grid
   var l = 0;
   var count = 0;
@@ -113,6 +132,25 @@ function drawLines(lines) {
   strokeWeight(3);
   for (let i = 0; i < lines.length; i++) { // draw the lines
     line(lines[i].coorx1, lines[i].coory1, lines[i].coorx2, lines[i].coory2);
+    // ------------------------------------------------------------------------------------
+    if(gridNum == 1) {
+       if(!arrayIncludes(jsonArraySide, [lines[i].coorx1,lines[i].coory1]) 
+          || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArraySide[0])) {
+           jsonArraySide.push([lines[i].coorx1,lines[i].coory1]);  
+       }
+    }
+    if(gridNum == 2) {
+       if(!arrayIncludes(jsonArrayTop, [lines[i].coorx1,lines[i].coory1]) 
+          || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArrayTop[0])) {
+           jsonArrayTop.push([lines[i].coorx1,lines[i].coory1]);
+       }
+    }
+    if(gridNum == 3) {
+       if(!arrayIncludes(jsonArrayFront, [lines[i].coorx1,lines[i].coory1]) 
+          || JSON.stringify([lines[i].coory1,lines[i].coory1]) == JSON.stringify(jsonArrayFront[0])) {
+           jsonArrayFront.push([lines[i].coorx1,lines[i].coory1]);
+       }
+    }
   }
 }
 
@@ -135,6 +173,18 @@ function removeLine(x1, y1, x2, y2, lines) { // remove line from array lines
   for (let i = 0; i < lines.length; i++) {
     if (doLinesMatch(x1, y1, x2, y2, lines[i])) {
       lines.splice(i, 1);
+      if(gridNum == 1) {
+        removeFromArray(jsonArraySide, [x1,y1]);
+        removeFromArray(jsonArraySide, [x2,y2]);
+      }
+      if(gridNum == 2) {
+        removeFromArray(jsonArrayTop, [x1,y1]);
+        removeFromArray(jsonArrayTop, [x2,y2]);
+      }
+      if (gridNum == 3) {
+        removeFromArray(jsonArrayFront, [x1,y1]);
+        removeFromArray(jsonArrayFront, [x2,y2]);        
+      }
     }
   }
 }
@@ -153,6 +203,42 @@ function containsLine(x1, y1, x2, y2, lines) { // checks if lines array contains
   return false;
 }
 
+// submit drawings to json file
 function submission() {
+  json.topView = jsonArrayTop;
+  json.sideView = jsonArraySide;
+  json.frontView = jsonArrayFront;
+  // REMEMBER TO WRITE TO EXISTING JSON HERE ?? -----------------------------------------------------------
+  resetDraw();
+}
+
+// checks if 2d array contains an array
+function arrayIncludes(array, element) {
+  
+  var stringElement = JSON.stringify(element);
+  var stringArrayElement;
+  
+  for(var i = 0; i < array.length; i++) {
+    
+    stringArrayElement = JSON.stringify(array[i]);
+    
+    print(stringElement);
+    print(stringArrayElement);
+    
+    if(stringElement == stringArrayElement) {
+      return true;
+    }
+  }
+  
+  return false;
+  
+}
+
+// remove from array
+function removeFromArray(array, element) {
+  
+  var index = array.indexOf(element);
+  array.splice(index, 1);
+  return array;
   
 }
