@@ -4,7 +4,7 @@ import mouse
 from time import sleep
 import json
 import math
-import calculations
+from calculations import * 
 
 # https://www.thepythoncode.com/article/control-mouse-python
 
@@ -19,20 +19,28 @@ topviewpoints = data["topView"]
 frontviewpoints = data["frontView"]
 
 # creates 2d array of lengths and angles
-lenAngleData = []
+# lenAngleData = []
 
-for i in range(1, len(topviewpoints)):
-  x1 = topviewpoints[i-1][0]
-  x2 = topviewpoints[i][0]
-  y1 = topviewpoints[i-1][1]
-  y2 = topviewpoints[i][1]
+# for i in range(1, len(topviewpoints)):
+#   x1 = topviewpoints[i-1][0]
+#   x2 = topviewpoints[i][0]
+#   y1 = topviewpoints[i-1][1]
+#   y2 = topviewpoints[i][1]
 
-  lenAngleData.append( [calculations.lenCalc(x1, y1, x2, y2), 
-                        calculations.degCalc(x1, y1, x2, y2)] )
+#   lenAngleData.append( [calculations.lenCalc(x1, y1, x2, y2), 
+#                         calculations.degCalc(x1, y1, x2, y2)] )
 
 
-# prep arrays
+# prep arrays (removes uneccessary points like lines inside the shape that aren't cuts)
+
+sidePointsPrepped = prepArray(sideviewpoints)
+topPointsPrepped = prepArray(topviewpoints)
+fronPointsPrepped = prepArray(frontviewpoints)
 
 # get width length height and make first instructions from that
+
+baseLength = overallLength(topPointsPrepped)
+baseWidth = overallWidth(topPointsPrepped)
+baseHeight = overallHeight(sidePointsPrepped)
 
 # get cuts from each surface and make instructions from that
