@@ -89,30 +89,32 @@ def overallHeight(sideViewPoints):
 # returns the main four corners of a sketch (rectangular base)
 def getFourCorners(pointsArray):
 
-  topRight = pointsArray[0]
-  topLeft = pointsArray[0]
-  bottomRight = pointsArray[0]
-  bottomLeft = pointsArray[0]
+  copyPointsArray = pointsArray[:]
 
-  for i in range(len(pointsArray)):
+  topRight = copyPointsArray[0]
+  topLeft = copyPointsArray[0]
+  bottomRight = copyPointsArray[0]
+  bottomLeft = copyPointsArray[0]
 
-    if pointsArray[i][0] < topLeft[0] or pointsArray[i][1] < topLeft[1]:
-      topLeft = pointsArray[i]
+  for i in range(len(copyPointsArray)):
+
+    if copyPointsArray[i][0] < topLeft[0] or copyPointsArray[i][1] < topLeft[1]:
+      topLeft = copyPointsArray[i]
     
-    if pointsArray[i][0] > topRight[0] or pointsArray[i][1] < topRight[1]:
-      topRight = pointsArray[i]
+    if copyPointsArray[i][0] > topRight[0] or copyPointsArray[i][1] < topRight[1]:
+      topRight = copyPointsArray[i]
 
-    if pointsArray[i][0] > bottomRight[0] or pointsArray[i][1] > bottomRight[1]:
-      bottomRight = pointsArray[i]
+    if copyPointsArray[i][0] > bottomRight[0] or copyPointsArray[i][1] > bottomRight[1]:
+      bottomRight = copyPointsArray[i]
 
-    if pointsArray[i][0] < bottomLeft[0] or pointsArray[i][1] > bottomLeft[1]:
-      bottomLeft = pointsArray[i]
+    if copyPointsArray[i][0] < bottomLeft[0] or copyPointsArray[i][1] > bottomLeft[1]:
+      bottomLeft = copyPointsArray[i]
   
   # sketchy fix (repeat for other cases once example 1 works)
   #basically wanna make sure it makes a rectangle shape for now
-  if topLeft[1] != topRight[1]:
-    if topLeft[1] > topRight[1]:
-      topRight[1] = topLeft[1]
+  # if topLeft[1] != topRight[1]:
+  #   if topLeft[1] > topRight[1]:
+  #     topRight[1] = topLeft[1]
 
   if topRight[0] != bottomRight[0]:
     if topRight[0] < bottomRight[0]:
@@ -124,21 +126,44 @@ def getFourCorners(pointsArray):
 # given a surface sketch, it finds the coordinates of the shapes we need to cut out
 # only one cut for now
 # works with "chronological" drawing
-def getCuttingShapes(pointsArray):
-    
-  corners = getFourCorners(pointsArray)
+def getCuttingShape(pointsArray):
+  
+  copyPointsArray = pointsArray[:]
 
+  corners = getFourCorners(copyPointsArray)
   cutPoints = []
 
-  for i in range(len(pointsArray)):
+  print(len(copyPointsArray))
 
-      # find cuts that are not part of the corners
-    if pointsArray[i] not in corners:
-      cutPoints.append(pointsArray[i])    
+  for i in range(len(copyPointsArray)):
 
+    # find points that are not part of the corners
+    if copyPointsArray[i] not in corners:
+      cutPoints.append(copyPointsArray[i])    
+
+  # find corners we need to include in cut
+  print(len(corners))
   for i in range(len(corners)):
 
-    if corners[i] not in pointsArray:
+    if corners[i] not in copyPointsArray:
       cutPoints.append(corners[i])
 
   return cutPoints
+
+# removes uneccessary points from arrays
+def prepArray(pointsArray):
+
+  copyPointsArray = pointsArray[:]
+
+  newArray = []
+
+  firstPoint = copyPointsArray[0]
+
+  for i in range(1,len(copyPointsArray)):
+
+    if(copyPointsArray[i] == firstPoint):
+
+      newArray = copyPointsArray[:i]
+      return newArray
+  
+  return copyPointsArray

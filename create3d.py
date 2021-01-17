@@ -11,11 +11,11 @@ import flask
 # https://www.thepythoncode.com/article/control-mouse-python
 
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-@app.route('/')
-def index():
-  return render_template('aisoDrawingPad.html')
+# @app.route('/')
+# def index():
+#   return render_template('aisoDrawingPad.html')
 
 
 
@@ -31,9 +31,9 @@ sideviewpoints = data["sideView"]
 
 # to create a closed shape, must "connect" first item 
 #  of array to last item of array
-topviewpoints.append(topviewpoints[0])
-frontviewpoints.append(frontviewpoints[0])
-sideviewpoints.append(sideviewpoints[0])
+# topviewpoints.append(topviewpoints[0])
+# frontviewpoints.append(frontviewpoints[0])
+# sideviewpoints.append(sideviewpoints[0])
 
 
 
@@ -62,14 +62,19 @@ for i in range(1, len(topviewpoints)):
   lenAngleData.append( [lenCalc(x1, y1, x2, y2), 
                         degCalc(x1, y1, x2, y2)] )
 
-print(lenAngleData)
+# print(lenAngleData)
+# print(calculations.overallLength(topviewpoints))
 
-print(calculations.overallLength(topviewpoints))
+newpoints = calculations.prepArray(sideviewpoints)
 
-topviewpoints.pop(len(topviewpoints)-1)
-print(topviewpoints)
-print(calculations.getFourCorners(topviewpoints))
-print(calculations.getCuttingShapes(topviewpoints))
+print(newpoints)
+
+print(calculations.getFourCorners(newpoints))
+
+print(newpoints)
+
+print(calculations.getCuttingShape(newpoints))
+
 # lenAngleArrayMaker usage for top, front, and side
 #print(calculations.lenAngleArrayMaker(topviewpoints))
 #print(calculations.lenAngleArrayMaker(frontviewpoints))
