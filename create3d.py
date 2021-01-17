@@ -60,11 +60,17 @@ print(frontSurfaceCuts)
 
 # keyboard commands ------------------------------------------------------------------------------------------------------------------
 
-# wait until you press space to start
+keyboard.wait('f')
+
+keyboard.press('l')
+
 keyboard.wait('f')
 
 # sketch rectangle using lines
-drawRectangle(200,400)
+drawRectangle(baseLength,baseWidth)
 
+#extrude it so we now have our basic prism
+# we haven't scaled height and pixels yet
+extrude(baseHeight/4)
 
 
