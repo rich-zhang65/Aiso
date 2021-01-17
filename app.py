@@ -10,9 +10,8 @@ from flask import Flask, render_template
 # mouse keyboard stuff
 # https://www.thepythoncode.com/article/control-mouse-python
 
-
+# flask setup
 app = Flask(__name__)
-
 @app.route('/')
 def index():
   return render_template('aisoDrawingPad.html')
@@ -41,3 +40,11 @@ sideviewpoints.append(sideviewpoints[0])
 #print(calculations.lenAngleArrayMaker(topviewpoints))
 #print(calculations.lenAngleArrayMaker(frontviewpoints))
 #print(calculations.lenAngleArrayMaker(sideviewpoints))
+
+
+
+
+
+
+
+

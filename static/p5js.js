@@ -2,12 +2,20 @@ var grid = 30; // # of tiles
 var secondClick = false; // detect second click (might want to show indicator or smth)
 var a, b; // previous/saved position
 let lines = []; // array of lines
+let button1, button2;
 
 function setup() {
-  let cnv = createCanvas(1500, 400); 
-  cnv.center('horizontal'); 
-  cnv.center('vertical');
+  let cnv = createCanvas(1500, 500);
+//  cnv.center('horizontal');
+//  cnv.center('vertical');
   createGrid(); // forms grid
+  //creating button
+  button1 = createButton('Reset Canvases');
+  button1.position(570, 650);
+  button1.mousePressed(resetDraw);
+  button2 = createButton('Submit');
+  button2.position(873, 650);
+  button2.mousePressed(submission);
 }
 
 
@@ -18,30 +26,38 @@ function draw() { // update
 
 
 function mouseClicked(){
-  if (secondClick) { // if second click
-    var x1 = snap(mouseX); // click position x
-    var y1 = snap(mouseY); // click position y
-    if (x1 != a || y1 != b) { // make sure not a point
-        
-      if (keyIsPressed == true && keyCode == CONTROL){ // delete func
-        secondClick = false;
-          
-        removeLine(a, b, x1, y1, lines);
-      }
-      
-      else {
-        if (!containsLine(a, b, x1, y1, lines)) { // make sure line doesn't already exist
+  //print(snap(mouseX), snap(mouseY));
+  print("hi")
+  if (snap(mouseY) >= 30 && snap(mouseY) <= 390 && 
+      ((snap(mouseX) >= 120 && snap(mouseX) <= 480) ||
+       (snap(mouseX) >= 570 && snap(mouseX) <= 930) ||
+       (snap(mouseX) >= 1020 && snap(mouseX) <= 1380))) {
+    
+    if (secondClick) { // if second click
+      var x1 = snap(mouseX); // click position x
+      var y1 = snap(mouseY); // click position y
+      if (x1 != a || y1 != b) { // make sure not a point
+
+        if (keyIsPressed == true && keyCode == CONTROL){ // delete func
           secondClick = false;
-          lines.push(new Edge(a, b, x1, y1)); // add line
+
+          removeLine(a, b, x1, y1, lines);
+        }
+
+        else {
+          if (!containsLine(a, b, x1, y1, lines)) { // make sure line doesn't already exist
+            secondClick = false;
+            lines.push(new Edge(a, b, x1, y1)); // add line
+          }
         }
       }
     }
-  }
-  
-  else {
-    secondClick = true; // clicked first, prep second click
-    a = snap(mouseX); // saves position x
-    b = snap(mouseY); // saves position y
+
+    else {
+      secondClick = true; // clicked first, prep second click
+      a = snap(mouseX); // saves position x
+      b = snap(mouseY); // saves position y
+    }
   }
 }
 
@@ -86,9 +102,15 @@ function createGrid() {
   }
 }
 
+function resetDraw() {
+  secondClick = false;
+  lines = [];
+  createGrid();
+}
+
 function drawLines(lines) {
   stroke(0, 0, 255); // blue
-  strokeWeight(1);
+  strokeWeight(3);
   for (let i = 0; i < lines.length; i++) { // draw the lines
     line(lines[i].coorx1, lines[i].coory1, lines[i].coorx2, lines[i].coory2);
   }
@@ -129,4 +151,8 @@ function containsLine(x1, y1, x2, y2, lines) { // checks if lines array contains
     }
   }
   return false;
+}
+
+function submission() {
+  
 }
