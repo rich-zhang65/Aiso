@@ -3,6 +3,7 @@ import math
 
 def lenAngleArrayMaker(pointsArray):
   dataArray = []
+  pointsArray.append(pointsArray[0])
 
   for i in range(1, len(pointsArray)):
     x1 = pointsArray[i-1][0]
