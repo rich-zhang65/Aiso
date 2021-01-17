@@ -10,7 +10,7 @@ from calculations import *
 
 
 # Load in JSON data
-with open('pointdata.json') as file:
+with open('derulo.json') as file:
     data = json.load(file)
 
 # Store top, front, and side view coordinates as 2D arrays
@@ -35,7 +35,7 @@ frontviewpoints = data["frontView"]
 
 sidePointsPrepped = prepArray(sideviewpoints)
 topPointsPrepped = prepArray(topviewpoints)
-fronPointsPrepped = prepArray(frontviewpoints)
+frontPointsPrepped = prepArray(frontviewpoints)
 
 # get width length height and make first instructions from that
 
@@ -44,3 +44,15 @@ baseWidth = overallWidth(topPointsPrepped)
 baseHeight = overallHeight(sidePointsPrepped)
 
 # get cuts from each surface and make instructions from that
+
+sideSurfaceCuts = getCuttingShape(sidePointsPrepped)
+topSurfaceCuts = getCuttingShape(topPointsPrepped)
+frontSurfaceCuts = getCuttingShape(frontPointsPrepped)
+
+print(baseLength)
+print(baseWidth)
+print(baseHeight)
+
+print(sideSurfaceCuts)
+print(topSurfaceCuts)
+print(frontSurfaceCuts)
