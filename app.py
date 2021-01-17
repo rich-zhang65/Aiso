@@ -17,8 +17,8 @@ app = Flask(__name__)
 def index():
   return render_template('aisoDrawingPad.html')
 
-
-
+if __name__ == "__main__":
+  app.run()
 
 # Load in JSON data
 with open('vertices_19.json') as file:
