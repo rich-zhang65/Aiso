@@ -5,6 +5,7 @@ from time import sleep
 import json
 import math
 from calculations import * 
+from keyboardFunctions import *
 
 # https://www.thepythoncode.com/article/control-mouse-python
 
@@ -56,3 +57,14 @@ print(baseHeight)
 print(sideSurfaceCuts)
 print(topSurfaceCuts)
 print(frontSurfaceCuts)
+
+# keyboard commands ------------------------------------------------------------------------------------------------------------------
+
+# wait until you press space to start
+keyboard.wait('f')
+
+# sketch rectangle using lines
+drawRectangle(200,400)
+
+
+
