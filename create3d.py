@@ -35,8 +35,6 @@ sideviewpoints = data["sideView"]
 # frontviewpoints.append(frontviewpoints[0])
 # sideviewpoints.append(sideviewpoints[0])
 
-
-
 def riserun(x1, y1, x2, y2):
   if (x2 == x1): 
     return math.degrees(90)
